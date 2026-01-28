@@ -1,0 +1,40 @@
+# build the project
+mkdir src tests build/scripts
+
+dotnet new sln -n Fridge
+
+dotnet new webapi  -n Fridge.Api          -f net8.0 -o src/Fridge.Api
+dotnet new classlib -n Fridge.Application -f net8.0 -o src/Fridge.Application
+dotnet new classlib -n Fridge.Domain      -f net8.0 -o src/Fridge.Domain
+dotnet new classlib -n Fridge.Infrastructure -f net8.0 -o src/Fridge.Infrastructure
+
+dotnet sln add src/Fridge.Api/Fridge.Api.csproj
+dotnet sln add src/Fridge.Application/Fridge.Application.csproj
+dotnet sln add src/Fridge.Domain/Fridge.Domain.csproj
+dotnet sln add src/Fridge.Infrastructure/Fridge.Infrastructure.csproj
+
+
+# add references
+dotnet add src/Fridge.Api reference src/Fridge.Application
+dotnet add src/Fridge.Api reference src/Fridge.Infrastructure
+
+dotnet add src/Fridge.Application reference src/Fridge.Domain
+
+dotnet add src/Fridge.Infrastructure reference src/Fridge.Application
+dotnet add src/Fridge.Infrastructure reference src/Fridge.Domain
+
+# add tests
+dotnet new xunit -n Fridge.Application.Tests -f net8.0 -o tests/Fridge.Application.Tests
+dotnet sln add tests/Fridge.Application.Tests/Fridge.Application.Tests.csproj
+dotnet add tests/Fridge.Application.Tests reference src/Fridge.Application
+
+# add packages
+dotnet add src/Fridge.Application package MediatR
+dotnet add src/Fridge.Application package FluentValidation
+
+# add infrastructure packages
+dotnet add src/Fridge.Infrastructure package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add src/Fridge.Infrastructure package Microsoft.EntityFrameworkCore.Design
+
+# add api packages
+dotnet add src/Fridge.Api package FluentValidation.AspNetCore
