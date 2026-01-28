@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: fridge-sql
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Fr1dge!p@ssw0rd"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - fridge_sql_data:/var/opt/mssql
+volumes:
+  fridge_sql_data:
