@@ -11,5 +11,18 @@ services:
       - "1433:1433"
     volumes:
       - fridge_sql_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Fr1dge!p@ssw0rd' -Q 'SELECT 1' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+
+
+
+
+
+
 volumes:
   fridge_sql_data:

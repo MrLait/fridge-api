@@ -32,6 +32,10 @@ dotnet add tests/Fridge.Application.Tests reference src/Fridge.Application
 dotnet add src/Fridge.Application package MediatR
 dotnet add src/Fridge.Application package FluentValidation
 
+# add application packages
+dotnet add src/Fridge.Application/Fridge.Application.csproj package Microsoft.EntityFrameworkCore --version 8.0.11
+dotnet add .\src\Fridge.Application\Fridge.Application.csproj  package Microsoft.EntityFrameworkCore.Relational --version 8 
+
 # add infrastructure packages
 dotnet add src/Fridge.Infrastructure package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add src/Fridge.Infrastructure package Microsoft.EntityFrameworkCore.Design
