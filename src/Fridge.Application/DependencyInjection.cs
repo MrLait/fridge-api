@@ -2,6 +2,7 @@ using MediatR;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Fridge.Application.Common.Behaviors;
 
 namespace Fridge.Application
 {
@@ -9,9 +10,12 @@ namespace Fridge.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+            var assembly = Assembly.GetExecutingAssembly();
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+            services.AddValidatorsFromAssembly(assembly);
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             return services;
         }

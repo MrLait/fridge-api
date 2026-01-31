@@ -11,6 +11,6 @@ namespace Fridge.Domain.Entities
         // Many to one
         public FridgeModel Model { get; set; } = null!;
         // One to many
-        public ICollection<FridgeProduct> FridgeProducts { get; set; } = new List<FridgeProduct>();
+        public ICollection<FridgeProduct> FridgeProducts { get; set; } = [];
     }
 }

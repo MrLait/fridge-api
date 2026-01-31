@@ -1,5 +1,6 @@
 using Fridge.Infrastructure;
 using Fridge.Application;
+using Fridge.Api.ExceptionHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
