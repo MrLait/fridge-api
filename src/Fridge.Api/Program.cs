@@ -1,6 +1,7 @@
 using Fridge.Infrastructure;
 using Fridge.Application;
 using Fridge.Api.ExceptionHandling;
+using Fridge.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    using var scope = app.Services.CreateScope();
+    var dbSeeder = scope.ServiceProvider.GetRequiredService<DbSeeder>();
+    await dbSeeder.SeedAsync();
 }
 
 app.UseHttpsRedirection();

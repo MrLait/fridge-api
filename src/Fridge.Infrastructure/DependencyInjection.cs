@@ -12,9 +12,10 @@ namespace Fridge.Infrastructure
         IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IAppDbContext>(x => x.GetRequiredService<AppDbContext>());
+            services.AddScoped<DbSeeder>();
 
             return services;
         }
