@@ -7,5 +7,5 @@ public sealed class AddProductToFridgeCommandHandler(IFridgeProductService servi
     : IRequestHandler<AddProductToFridgeCommand, Guid>
 {
     public async Task<Guid> Handle(AddProductToFridgeCommand request, CancellationToken ct)
-        => await service.AddProductAsync(request.FridgeId, request.ProductId, request.Quantity, ct);
+        => await service.AddProductAsync(request.FridgeId, request.ProductId, request.Quantity, true, ct);
 }

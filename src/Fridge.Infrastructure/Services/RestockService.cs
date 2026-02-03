@@ -18,15 +18,21 @@ public sealed class RestockService(AppDbContext db, IFridgeProductService fridge
         if (candidates.Count == 0)
             return 0;
 
+        await using var tx = await db.Database.BeginTransactionAsync(ct);
+        var processed = 0;
         foreach (var c in candidates)
         {
             if (c.DefaultQuantity <= 0)
                 throw new BusinessRuleViolationException(
                      $"Product '{c.ProductId}' has invalid default quantity '{c.DefaultQuantity}'. Fix products.default_quantity and retry restock.");
 
-            await fridgeProductService.AddProductAsync(c.FridgeId, c.ProductId, c.DefaultQuantity, ct);
+            await fridgeProductService.AddProductAsync(c.FridgeId, c.ProductId, c.DefaultQuantity, false, ct);
+            processed++;
         }
 
-        return candidates.Count;
+        await db.SaveChangesAsync(ct);
+        await tx.CommitAsync(ct);
+
+        return processed;
     }
 }
