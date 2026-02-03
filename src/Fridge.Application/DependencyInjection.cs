@@ -10,7 +10,7 @@ namespace Fridge.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            var assembly = typeof(DependencyInjection).Assembly;
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
             services.AddValidatorsFromAssembly(assembly);

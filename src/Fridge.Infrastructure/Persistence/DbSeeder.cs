@@ -92,7 +92,10 @@ public sealed class DbSeeder(AppDbContext db)
 
 
                 new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[3], ProductId = productIds[0].Id, Quantity = 0},
-                new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[3], ProductId = productIds[1].Id, Quantity = 1}
+                new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[3], ProductId = productIds[1].Id, Quantity = 1},
+                new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[3], ProductId = productIds[2].Id, Quantity = 0},
+                new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[3], ProductId = productIds[3].Id, Quantity = 0},
+                new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[3], ProductId = productIds[4].Id, Quantity = 0}
             };
 
             _db.FridgeProducts.AddRange(fridgeProducts);

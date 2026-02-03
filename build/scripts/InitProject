@@ -51,3 +51,12 @@ dotnet add src/Fridge.Api package Swashbuckle.AspNetCore --version 6.6.2
 # Migration commands
 dotnet ef migrations add InitialCreate -p src/Fridge.Infrastructure -s src/Fridge.Api
 dotnet ef database update -p src/Fridge.Infrastructure -s src/Fridge.Api
+
+# Add Stored Procedure
+(
+    dotnet ef migrations add AddRestockStoredProcedure -p src/Fridge.Infrastructure -s src/Fridge.Api
+    then update method Up() and Down()
+    dotnet ef database update -p src/Fridge.Infrastructure -s src/Fridge.Api
+)
+# Check Stored Procedure in a database
+docker exec -it fridge-sql /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "Fr1dge!p@ssw0rd" -C -d Fridge -Q "EXEC dbo.sp_RestockZeroQuantity;"
