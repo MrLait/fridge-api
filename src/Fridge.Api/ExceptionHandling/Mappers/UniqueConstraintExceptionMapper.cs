@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fridge.Api.ExceptionHandling;
+namespace Fridge.Api.ExceptionHandling.Mappers;
 
 public sealed class UniqueConstraintExceptionMapper : IExceptionMapper
 {

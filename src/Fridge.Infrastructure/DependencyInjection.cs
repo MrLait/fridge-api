@@ -1,5 +1,6 @@
 using Fridge.Application.Common.Interfaces;
 using Fridge.Infrastructure.Persistence;
+using Fridge.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,8 @@ namespace Fridge.Infrastructure
 
             services.AddScoped<IAppDbContext>(x => x.GetRequiredService<AppDbContext>());
             services.AddScoped<DbSeeder>();
+            services.AddScoped<IFridgeProductService, FridgeProductService>();
+            services.AddScoped<IRestockService, RestockService>();
 
             return services;
         }

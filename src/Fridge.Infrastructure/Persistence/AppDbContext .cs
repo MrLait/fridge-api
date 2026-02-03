@@ -1,5 +1,6 @@
 using Fridge.Application.Common.Interfaces;
 using Fridge.Domain.Entities;
+using Fridge.Infrastructure.Persistence.SpModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fridge.Infrastructure.Persistence
@@ -10,6 +11,7 @@ namespace Fridge.Infrastructure.Persistence
         public DbSet<FridgeModel> FridgeModels => Set<FridgeModel>();
         public DbSet<FridgeProduct> FridgeProducts => Set<FridgeProduct>();
         public DbSet<Product> Products => Set<Product>();
+        public DbSet<RestockCandidateRow> RestockCandidateRows => Set<RestockCandidateRow>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

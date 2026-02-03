@@ -1,6 +1,4 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Fridge.Api.ExceptionHandling;
 public sealed class GlobalExceptionHandler(IEnumerable<IExceptionMapper> mappers) : IExceptionHandler

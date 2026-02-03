@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fridge.Api.ExceptionHandling;
+namespace Fridge.Api.ExceptionHandling.Mappers;
 
 public sealed class NotFoundExceptionMapper : IExceptionMapper
 {
