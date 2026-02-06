@@ -1,5 +1,4 @@
 using Fridge.Application.Features.Products.Commands.UpdateProduct;
-using Fridge.Application.Features.Products.Dtos;
 using Fridge.Application.Features.Products.Queries.GetProductById;
 using Fridge.Application.Features.Products.Queries.GetProducts;
 using MediatR;
@@ -9,7 +8,7 @@ namespace Fridge.Api.Controllers
 {
     [ApiController]
     [Route("api/products")]
-    public class ProductsController(IMediator mediator) : ControllerBase
+    public sealed class ProductsController(IMediator mediator) : ControllerBase
     {
 
         [HttpGet]
