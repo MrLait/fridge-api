@@ -1,8 +1,11 @@
 namespace Fridge.Application.Features.Fridges.Commands.CreateFridge;
 
+public sealed record InitialProductRequest(Guid ProductId, int Quantity);
+
 public sealed record CreateFridgeRequest
 (
     string Name,
     string? OwnerName,
-    Guid ModelId
+    Guid ModelId,
+    List<InitialProductRequest>? InitialProducts
 );

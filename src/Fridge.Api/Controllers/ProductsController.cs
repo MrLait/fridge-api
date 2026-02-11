@@ -17,6 +17,7 @@ namespace Fridge.Api.Controllers
             var products = await mediator.Send(new GetProductsQuery(), ct);
             return Ok(products);
         }
+
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetProduct([FromRoute] Guid id, CancellationToken ct)
             => Ok(await mediator.Send(new GetProductByIdQuery(id), ct));

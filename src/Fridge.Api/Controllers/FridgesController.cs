@@ -20,17 +20,14 @@ public class FridgesController(IMediator mediator) : ControllerBase
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetFridgeById([FromRoute] Guid id, CancellationToken ct)
-    {
-        var fridge = await mediator.Send(new GetFridgeByIdQuery(id), ct);
-        return Ok(fridge);
-    }
+        => Ok(await mediator.Send(new GetFridgeByIdQuery(id), ct));
 
     [HttpGet("{fridgeId:guid}/products")]
     public async Task<IActionResult> GetFridgeProducts([FromRoute] Guid fridgeId, CancellationToken cancellationToken)
         => Ok(await mediator.Send(new GetFridgeProductsQuery(fridgeId), cancellationToken));
 
     [HttpPost("{fridgeId:guid}/products")]
-    public async Task<IActionResult> AddProductsToFridge([FromRoute] Guid fridgeId, [FromBody] AddProductToFridgeRequest body, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddProductToFridge([FromRoute] Guid fridgeId, [FromBody] AddProductToFridgeRequest body, CancellationToken cancellationToken)
     {
         var id = await mediator.Send(new AddProductToFridgeCommand(fridgeId, body.ProductId, body.Quantity), cancellationToken);
         return Ok(new { fridgeProductId = id });
@@ -39,7 +36,11 @@ public class FridgesController(IMediator mediator) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateFridge([FromBody] CreateFridgeRequest body, CancellationToken ct)
     {
-        var id = await mediator.Send(new CreateFridgeCommand(body.Name, body.OwnerName, body.ModelId), ct);
+        var initialProducts = body.InitialProducts?
+            .Select(x => new InitialFridgeProductItem(x.ProductId, x.Quantity))
+            .ToList();
+
+        var id = await mediator.Send(new CreateFridgeCommand(body.Name, body.OwnerName, body.ModelId, initialProducts), ct);
         return CreatedAtAction(nameof(GetFridgeById), new { id }, new { id });
     }
 
@@ -53,7 +54,7 @@ public class FridgesController(IMediator mediator) : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteFridge([FromRoute] Guid id, CancellationToken ct)
     {
-        await mediator.Send(new DeleteFridgeCommand(id, ct));
+        await mediator.Send(new DeleteFridgeCommand(id), ct);
         return NoContent();
     }
 }
