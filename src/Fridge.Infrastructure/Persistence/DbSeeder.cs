@@ -15,8 +15,8 @@ public sealed class DbSeeder(AppDbContext db)
         {
             var models = new[]
             {
-                new FridgeModel { Id = Guid.NewGuid(), Name = "Fridge Model 1", Year = 2020 },
-                new FridgeModel { Id = Guid.NewGuid(), Name = "Fridge Model 2", Year = 2021},
+                new FridgeModel { Id = Guid.NewGuid(), Name = "Abios Model 1", Year = 2020 },
+                new FridgeModel { Id = Guid.NewGuid(), Name = "Amender Model 2", Year = 2021},
                 new FridgeModel { Id = Guid.NewGuid(), Name = "Fridge Model 3", Year = 2022 },
                 new FridgeModel { Id = Guid.NewGuid(), Name = "Fridge Model 4", Year = 2023},
                 new FridgeModel { Id = Guid.NewGuid(), Name = "Fridge Model 5", Year = 2024 }
@@ -49,7 +49,7 @@ public sealed class DbSeeder(AppDbContext db)
 
             var fridges = new[]
             {
-                new Domain.Entities.Fridge { Id = Guid.NewGuid(), Name = "Fridge 1", OwnerName = "John Doe1", ModelId = modelIds[0]},
+                new Domain.Entities.Fridge { Id = new Guid("1549EEC3-E01B-4A17-B6E4-3726B90EF3CD"), Name = "Fridge 1", OwnerName = "John Doe1", ModelId = modelIds[0]},
                 new Domain.Entities.Fridge { Id = Guid.NewGuid(), Name = "Fridge 2", OwnerName = "John Doe2", ModelId = modelIds[1]},
                 new Domain.Entities.Fridge { Id = Guid.NewGuid(), Name = "Fridge 3", OwnerName = "John Doe3", ModelId = modelIds[2]},
                 new Domain.Entities.Fridge { Id = Guid.NewGuid(), Name = "Fridge 4", OwnerName = "John Doe4", ModelId = modelIds[3]},
@@ -80,7 +80,7 @@ public sealed class DbSeeder(AppDbContext db)
                 new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[0], ProductId = productIds[3].Id, Quantity = 7},
                 new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[0], ProductId = productIds[4].Id, Quantity = 3},
 
-                new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[1], ProductId = productIds[0].Id, Quantity = 5},
+                new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[1], ProductId = productIds[0].Id, Quantity = 50},
                 new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[1], ProductId = productIds[1].Id, Quantity = 2},
                 new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[1], ProductId = productIds[2].Id, Quantity = 4},
                 new FridgeProduct { Id = Guid.NewGuid(), FridgeId = fridgeIds[1], ProductId = productIds[3].Id, Quantity = 9},
