@@ -1,3 +1,4 @@
+using Fridge.Api.Contracts.Products;
 using Fridge.Application.Features.Products.Commands.UpdateProduct;
 using Fridge.Application.Features.Products.Queries.GetProductById;
 using Fridge.Application.Features.Products.Queries.GetProducts;

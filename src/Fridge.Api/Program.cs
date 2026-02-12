@@ -30,7 +30,6 @@ if (app.Environment.IsDevelopment())
     await dbSeeder.SeedAsync();
 }
 
-app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();

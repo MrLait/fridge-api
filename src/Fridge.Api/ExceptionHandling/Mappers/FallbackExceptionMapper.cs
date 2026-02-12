@@ -10,6 +10,6 @@ public sealed class FallbackExceptionMapper : IExceptionMapper
     {
         Status = StatusCodes.Status500InternalServerError,
         Title = "Server error",
-        Detail = "An expected error occurred."
+        Detail = "An unexpected error occurred."
     };
 }

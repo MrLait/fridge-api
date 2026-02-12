@@ -11,7 +11,7 @@ public sealed class MaintenanceController(IMediator mediator) : ControllerBase
     [HttpPost("restock-zero")]
     public async Task<IActionResult> RestockZero(CancellationToken ct)
     {
-        var update = await mediator.Send(new RestockZeroQuantityCommand(), ct);
-        return Ok(new { update });
+        var updated = await mediator.Send(new RestockZeroQuantityCommand(), ct);
+        return Ok(new { updated });
     }
 }

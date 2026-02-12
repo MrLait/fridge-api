@@ -1,4 +1,4 @@
-namespace Fridge.Application.Features.Fridges.Commands.CreateFridge;
+namespace Fridge.Api.Contracts.Fridges;
 
 public sealed record InitialProductRequest(Guid ProductId, int Quantity);
 

@@ -6,5 +6,5 @@ public sealed record CreateFridgeCommand(
     string Name,
     string? OwnerName,
     Guid ModelId,
-    List<InitialFridgeProductItem>? InitialProducts
+    IReadOnlyList<InitialFridgeProductItem>? InitialProducts
     ) : IRequest<Guid>;

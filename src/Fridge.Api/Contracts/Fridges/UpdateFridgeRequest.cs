@@ -1,4 +1,4 @@
-namespace Fridge.Application.Features.Fridges.Commands.UpdateFridge;
+namespace Fridge.Api.Contracts.Fridges;
 
 public sealed record UpdateFridgeRequest
 (

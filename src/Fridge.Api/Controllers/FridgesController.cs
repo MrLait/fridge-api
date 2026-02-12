@@ -1,3 +1,4 @@
+using Fridge.Api.Contracts.Fridges;
 using Fridge.Application.Features.Fridges.Commands.AddProductToFridge;
 using Fridge.Application.Features.Fridges.Commands.CreateFridge;
 using Fridge.Application.Features.Fridges.Commands.DeleteFridge;

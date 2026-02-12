@@ -26,6 +26,8 @@ namespace Fridge.Infrastructure.Persistence.Configurations
             .WithMany(m => m.FridgeProducts)
             .HasForeignKey(f => f.FridgeId)
             .OnDelete(DeleteBehavior.Cascade);
+
+            e.HasIndex(x => new { x.FridgeId, x.ProductId }).IsUnique();
         }
     }
 }
