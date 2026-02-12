@@ -15,25 +15,25 @@ sqlcmd -S localhost,1433 -U sa -P "Fr1dge!p@ssw0rd" -C -d Fridge ` -W -s " | " -
 ## Сделать выборку холодильников, в которых есть продукты в количестве, меньшем чем количество по умолчанию
 
 ```powershell
-02_fridges_below_default.sql
+sqlcmd -S localhost,1433 -U sa -P "Fr1dge!p@ssw0rd" -C -d Fridge ` -W -s " | " -i ".\src\sql\02_fridges_below_default.sql"
 ```
 
 ## В каком году выпустили холодильник с наибольшей вместимостью (сумма всех продуктов больше всего)
 
 ```powershell
-03_max_capacity_model_year.sql
+sqlcmd -S localhost,1433 -U sa -P "Fr1dge!p@ssw0rd" -C -d Fridge ` -W -s " | " -i ".\src\sql\03_max_capacity_model_year.sql"
 ```
 
 ## Выбрать все продукты и имя владельца из холодильника, в котором больше всего наименований продуктов. Именно наименований, не количества
 
 ```powershell
-04_owner_and_products_most_names.sql
+sqlcmd -S localhost,1433 -U sa -P "Fr1dge!p@ssw0rd" -C -d Fridge ` -W -s " | " -i ".\src\sql\04_owner_and_products_most_names.sql"
 ```
 
 ## Вывести все продукты для холодильника в id 2 (или выбрать определенный Guid)
 
 ```powershell
-05_products_by_fridge.sql
+sqlcmd -S localhost,1433 -U sa -P "Fr1dge!p@ssw0rd" -C -d Fridge ` -W -s " | " -i ".\src\sql\05_products_by_fridge.sql"
 ```
 
 ## Вывести все продукты для всех холодильников
