@@ -10,5 +10,7 @@ public interface IAppDbContext
     DbSet<FridgeModel> FridgeModels { get; }
     DbSet<FridgeProduct> FridgeProducts { get; }
     DbSet<Product> Products { get; }
+    DbSet<ProductImage> ProductImages { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

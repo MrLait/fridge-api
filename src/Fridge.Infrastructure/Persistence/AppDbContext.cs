@@ -12,6 +12,7 @@ namespace Fridge.Infrastructure.Persistence
         public DbSet<FridgeProduct> FridgeProducts => Set<FridgeProduct>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<RestockCandidateRow> RestockCandidateRows => Set<RestockCandidateRow>();
+        public DbSet<ProductImage> ProductImages => Set<ProductImage>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
