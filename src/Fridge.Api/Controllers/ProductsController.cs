@@ -3,6 +3,7 @@ using Fridge.Application.Features.Products.Commands.UpdateProduct;
 using Fridge.Application.Features.Products.Queries.GetProductById;
 using Fridge.Application.Features.Products.Queries.GetProducts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fridge.Api.Controllers
@@ -12,6 +13,7 @@ namespace Fridge.Api.Controllers
     public sealed class ProductsController(IMediator mediator) : ControllerBase
     {
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken ct)
         {
@@ -19,9 +21,10 @@ namespace Fridge.Api.Controllers
             return Ok(products);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetProduct([FromRoute] Guid id, CancellationToken ct)
-            => Ok(await mediator.Send(new GetProductByIdQuery(id), ct));
+                    => Ok(await mediator.Send(new GetProductByIdQuery(id), ct));
 
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, UpdateProductRequest body)

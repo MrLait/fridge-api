@@ -7,6 +7,7 @@ using Fridge.Application.Features.Fridges.Queries.GetFridgeById;
 using Fridge.Application.Features.Fridges.Queries.GetFridgeProducts;
 using Fridge.Application.Features.Fridges.Queries.GetFridges;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fridge.Api.Controllers;
@@ -15,14 +16,17 @@ namespace Fridge.Api.Controllers;
 [Route("api/fridges")]
 public class FridgesController(IMediator mediator) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetFridges(CancellationToken cancellationToken)
         => Ok(await mediator.Send(new GetFridgesQuery(), cancellationToken));
 
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetFridgeById([FromRoute] Guid id, CancellationToken ct)
-        => Ok(await mediator.Send(new GetFridgeByIdQuery(id), ct));
+            => Ok(await mediator.Send(new GetFridgeByIdQuery(id), ct));
 
+    [AllowAnonymous]
     [HttpGet("{fridgeId:guid}/products")]
     public async Task<IActionResult> GetFridgeProducts([FromRoute] Guid fridgeId, CancellationToken cancellationToken)
         => Ok(await mediator.Send(new GetFridgeProductsQuery(fridgeId), cancellationToken));

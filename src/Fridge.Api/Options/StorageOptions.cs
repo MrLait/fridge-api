@@ -1,4 +1,4 @@
-namespace Fridge.Infrastructure.Options;
+namespace Fridge.Api.Options;
 
 public sealed class StorageOptions
 {

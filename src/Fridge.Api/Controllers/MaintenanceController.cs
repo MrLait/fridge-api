@@ -1,5 +1,6 @@
 using Fridge.Application.Features.Maintenance.Commands.RestockZeroQuantity;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fridge.Api.Controllers;
