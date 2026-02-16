@@ -18,6 +18,7 @@ public sealed class UpdateProductCommandHandler(IAppDbContext db)
         product.Name = request.Name;
         product.DefaultQuantity = request.DefaultQuantity;
 
+
         await db.SaveChangesAsync(cancellationToken);
         return new ProductDto(product.Id, product.Name, product.DefaultQuantity);
     }

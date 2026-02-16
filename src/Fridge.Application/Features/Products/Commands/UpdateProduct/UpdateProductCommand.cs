@@ -6,5 +6,6 @@ namespace Fridge.Application.Features.Products.Commands.UpdateProduct;
 public sealed record UpdateProductCommand(
     Guid Id,
     string Name,
-    int? DefaultQuantity
+    int? DefaultQuantity,
+    string? PrimaryImageUrl
 ) : IRequest<ProductDto>;

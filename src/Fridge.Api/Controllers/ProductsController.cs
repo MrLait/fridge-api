@@ -17,7 +17,8 @@ namespace Fridge.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken ct)
         {
-            var products = await mediator.Send(new GetProductsQuery(), ct);
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            var products = await mediator.Send(new GetProductsQuery(baseUrl), ct);
             return Ok(products);
         }
 
@@ -29,7 +30,8 @@ namespace Fridge.Api.Controllers
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, UpdateProductRequest body)
         {
-            var dto = await mediator.Send(new UpdateProductCommand(id, body.Name, body.DefaultQuantity));
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            var dto = await mediator.Send(new UpdateProductCommand(id, body.Name, body.DefaultQuantity, baseUrl));
             return Ok(dto);
         }
     }

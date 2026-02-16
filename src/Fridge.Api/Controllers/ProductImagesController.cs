@@ -1,3 +1,4 @@
+using Fridge.Api.Contracts.ProductImages;
 using Fridge.Application.Features.ProductImages.Commands.DeleteProductImage;
 using Fridge.Application.Features.ProductImages.Commands.SetPrimaryProductImage;
 using Fridge.Application.Features.ProductImages.Commands.UploadProductImage;
@@ -45,15 +46,19 @@ public sealed class ProductImagesController(IMediator mediator) : ControllerBase
 
     [HttpPost]
     [RequestSizeLimit(5 * 1024 * 1024)]
-    public async Task<IActionResult> Upload([FromRoute] Guid productId, IFormFile file, CancellationToken ct)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> Upload(
+        [FromRoute] Guid productId,
+        [FromForm] UploadProductImageRequest request,
+        CancellationToken ct)
     {
-        if (file is null || file.Length == 0)
+        if (request.File is null || request.File.Length == 0)
             return BadRequest("File is empty.");
 
-        await using var s = file.OpenReadStream();
+        await using var s = request.File.OpenReadStream();
 
         var imageId = await mediator.Send(new UploadProductImageCommand(
-            productId, file.FileName, file.ContentType, file.Length, s), ct);
+            productId, request.File.FileName, request.File.ContentType, request.File.Length, s), ct);
 
         return Ok(new { imageId });
     }

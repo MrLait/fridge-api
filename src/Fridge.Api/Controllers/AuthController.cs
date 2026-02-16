@@ -13,7 +13,7 @@ namespace Fridge.Api.Controllers;
 public sealed class AuthController(IConfiguration cfg) : ControllerBase
 {
     [AllowAnonymous]
-    [HttpPost]
+    [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
         if (!((request.Username == "user" && request.Password == "user") ||

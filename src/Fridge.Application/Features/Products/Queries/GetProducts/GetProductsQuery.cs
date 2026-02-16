@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Fridge.Application.Features.Products.Queries.GetProducts;
 
-public sealed record GetProductsQuery : IRequest<IReadOnlyList<ProductDto>>;
+public sealed record GetProductsQuery(string BaseUrl) : IRequest<IReadOnlyList<ProductListDto>>;
