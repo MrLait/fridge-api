@@ -90,3 +90,24 @@ docker exec -it fridge-sql /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "
 "SELECT i.name, i.is_unique FROM sys.indexes i WHERE i.object_id = OBJECT_ID('dbo.fridge_products');"
 
 "SELECT MigrationId, ProductVersion FROM dbo.__EFMigrationsHistory ORDER BY MigrationId;"
+
+## Code coverage
+
+```powershell
+dotnet test .\Fridge.sln --collect:"XPlat Code Coverage"
+```
+
+```powershell
+reportgenerator `
+-reports:"tests/**/TestResults/**/coverage.cobertura.xml" `
+-targetdir:"TestResults/CoverageReport" `
+-reporttypes:Html
+
+```
+
+```powershell
+reportgenerator `
+-reports:"tests/**/TestResults/**/coverage.cobertura.xml" `
+-targetdir:"TestResults/Coverage" `
+-reporttypes:Cobertura
+```
