@@ -30,7 +30,12 @@ public class GetFridgesQueryHandlerTests
         await using var ctx = await TestContext.CreateAsync();
 
         var modelId = Guid.NewGuid();
-        await ctx.Db.AddAndSaveAsync(new FridgeModel { Id = modelId, Name = "Model 1", Year = 2020 });
+        await ctx.Db.AddAndSaveAsync(new FridgeModel
+        {
+            Id = modelId,
+            Name = "Model 1",
+            Year = 2020
+        });
 
         var fridgeId = Guid.NewGuid();
         await ctx.Db.AddAndSaveAsync(new Domain.Entities.Fridge
@@ -80,7 +85,20 @@ public class GetFridgesQueryHandlerTests
 
         // Then
         dtos.Should().HaveCount(2);
-        dtos.Should().ContainSingle(x => x.Id == f1.Id && x.ModelId == model1.Id && x.ModelName == "Model 1");
-        dtos.Should().ContainSingle(x => x.Id == f2.Id && x.ModelId == model2.Id && x.ModelName == "Model 2");
+        dtos.Should().ContainSingle(x =>
+            x.Id == f1.Id &&
+            x.Name == f1.Name &&
+            x.OwnerName == f1.OwnerName &&
+            x.ModelId == model1.Id &&
+            x.ModelName == "Model 1" &&
+            x.ModelYear == 2020);
+
+        dtos.Should().ContainSingle(x =>
+            x.Id == f2.Id &&
+            x.Name == f2.Name &&
+            x.OwnerName == f2.OwnerName &&
+            x.ModelId == model2.Id &&
+            x.ModelName == "Model 2" &&
+            x.ModelYear == 2021);
     }
 }

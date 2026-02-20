@@ -17,6 +17,5 @@ public sealed class DeleteFridgeCommandHandler(IAppDbContext db)
 
         db.Fridges.Remove(fridge);
         await db.SaveChangesAsync(ct);
-        //ToDo на связи FridgeProduct -> Fridge стоит cascade delete
     }
 }
