@@ -12,9 +12,8 @@ public class CreateFridgeCommandHandlerTests
     public async Task Should_Throw_When_Model_Not_Found()
     {
         // Given
-        var (db, conn) = await TestDbContextFactory.CreateAsync();
-        await using var _ = conn;
-        var handler = new CreateFridgeCommandHandler(db);
+        await using var ctx = await TestContext.CreateAsync();
+        var handler = new CreateFridgeCommandHandler(ctx.Db);
         var missingModelId = Guid.NewGuid();
 
         var command = new CreateFridgeCommand(
@@ -25,82 +24,47 @@ public class CreateFridgeCommandHandlerTests
         );
 
         //When
-        var act = async () => await handler.Handle(command, CancellationToken.None);
+        var act = () => handler.Handle(command, CancellationToken.None);
 
         //Then
         await act.Should().ThrowAsync<KeyNotFoundException>()
             .WithMessage($"*FridgeModel '{missingModelId}' not found*");
     }
 
-    [Fact]
-    public async Task Should_Create_Fridge_Without_Products_When_InitialProducts_Is_Empty()
+    public static IEnumerable<object?[]> EmptyInitialProductsCases()
     {
-        var (db, conn) = await TestDbContextFactory.CreateAsync();
-        await using var _ = conn;
-
-        var modelId = Guid.NewGuid();
-        db.FridgeModels.Add(new FridgeModel { Id = modelId, Name = "Name", Year = 2000 });
-        await db.SaveChangesAsync();
-
-        var handler = new CreateFridgeCommandHandler(db);
-        var command = new CreateFridgeCommand(
-            "Fridge",
-            "OwnerName",
-            modelId,
-            []
-        );
-
-        //When
-        var id = await handler.Handle(command, CancellationToken.None);
-
-        // Then
-        var fridge = await db.Fridges
-           .Include(x => x.FridgeProducts)
-           .SingleOrDefaultAsync(x => x.Id == id);
-
-        fridge!.Name.Should().Be("Fridge");
-        fridge.OwnerName.Should().Be("OwnerName");
-        fridge.ModelId.Should().Be(modelId);
-        fridge.FridgeProducts.Should().BeEmpty();
+        yield return new object?[] { null };
+        yield return new object?[] { Array.Empty<InitialFridgeProductItem>() };
     }
 
-    [Fact]
-    public async Task Should_Create_Fridge_Without_Products_When_InitialProducts_Is_Null()
+    [Theory]
+    [MemberData(nameof(EmptyInitialProductsCases))]
+    public async Task Should_Create_Fridge_Without_Products_When_InitialProducts_Is_Null_Or_Empty(
+        IReadOnlyList<InitialFridgeProductItem>? initialProducts
+    )
     {
-        var (db, conn) = await TestDbContextFactory.CreateAsync();
-        await using var _ = conn;
+        // Given
+        await using var ctx = await TestContext.CreateAsync();
 
         var modelId = Guid.NewGuid();
-        db.FridgeModels.Add(new FridgeModel { Id = modelId, Name = "Name", Year = 2000 });
-        await db.SaveChangesAsync();
+        await ctx.Db.AddAndSaveAsync(new FridgeModel { Id = modelId, Name = "Name", Year = 2000 });
 
-        var handler = new CreateFridgeCommandHandler(db);
-        var command = new CreateFridgeCommand(
-            "Fridge",
-            "OwnerName",
-            modelId,
-            null
-        );
+        var handler = new CreateFridgeCommandHandler(ctx.Db);
+        var command = new CreateFridgeCommand("Fridge", "OwnerName", modelId, initialProducts);
 
-        //When
+        // When
         var id = await handler.Handle(command, CancellationToken.None);
 
         // Then
-        var fridge = await db.Fridges
-           .Include(x => x.FridgeProducts)
-           .SingleOrDefaultAsync(x => x.Id == id);
+        var fridge = await LoadFridgeAsync(ctx, id);
 
-        fridge!.Name.Should().Be("Fridge");
-        fridge.OwnerName.Should().Be("OwnerName");
-        fridge.ModelId.Should().Be(modelId);
         fridge.FridgeProducts.Should().BeEmpty();
     }
 
     [Fact]
     public async Task Should_Throw_When_Some_Products_Not_Found()
     {
-        var (db, conn) = await TestDbContextFactory.CreateAsync();
-        await using var _ = conn;
+        await using var ctx = await TestContext.CreateAsync();
         var modelId = Guid.NewGuid();
         var productOneId = Guid.NewGuid();
         var missingProductId = Guid.NewGuid();
@@ -111,14 +75,13 @@ public class CreateFridgeCommandHandlerTests
             new (missingProductId, 1)
         };
 
-        db.FridgeModels.Add(new FridgeModel { Id = modelId, Name = "Name", Year = 2000 });
-        db.FridgeModels.Add(new FridgeModel { Id = modelId, Name = "Name", Year = 2000 });
+        await ctx.Db.AddAndSaveAsync(new FridgeModel { Id = modelId, Name = "Name", Year = 2000 });
+        await ctx.Db.AddRangeAndSaveAsync(
+            CancellationToken.None,
+            new Product { Id = productOneId, Name = "ProductOne" },
+            new Product { Id = Guid.NewGuid(), Name = "ProductTwo" });
 
-        db.Products.Add(new Product { Id = productOneId, Name = "ProductOne" });
-        db.Products.Add(new Product { Id = Guid.NewGuid(), Name = "ProductTwo" });
-        await db.SaveChangesAsync();
-
-        var handler = new CreateFridgeCommandHandler(db);
+        var handler = new CreateFridgeCommandHandler(ctx.Db);
         var command = new CreateFridgeCommand(
             "Fridge",
             "OwnerName",
@@ -127,30 +90,27 @@ public class CreateFridgeCommandHandlerTests
         );
 
         // When
-        var act = async () => await handler.Handle(command, CancellationToken.None);
+        var act = () => handler.Handle(command, CancellationToken.None);
 
         // Then
         await act.Should().ThrowAsync<KeyNotFoundException>()
             .WithMessage($"*Some products not found:*{missingProductId}*");
 
-        (await db.Fridges.CountAsync()).Should().Be(0);
+        (await ctx.Db.Fridges.CountAsync()).Should().Be(0);
     }
 
     [Fact]
     public async Task Should_Create_Fridge_With_Initial_Products()
     {
-        var (db, conn) = await TestDbContextFactory.CreateAsync();
-        await using var _ = conn;
+        await using var ctx = await TestContext.CreateAsync();
         var modelId = Guid.NewGuid();
-
-        db.FridgeModels.Add(new FridgeModel { Id = modelId, Name = "Name", Year = 2000 });
-
         var productOne = new Product { Id = Guid.NewGuid(), Name = "Milk", DefaultQuantity = 2 };
         var productTwo = new Product { Id = Guid.NewGuid(), Name = "Eggs", DefaultQuantity = 10 };
-        db.Products.AddRange(productOne, productTwo);
-        await db.SaveChangesAsync();
 
-        var handler = new CreateFridgeCommandHandler(db);
+        await ctx.Db.AddAndSaveAsync(new FridgeModel { Id = modelId, Name = "Name", Year = 2000 });
+        await ctx.Db.AddRangeAndSaveAsync(CancellationToken.None, productOne, productTwo);
+
+        var handler = new CreateFridgeCommandHandler(ctx.Db);
         var command = new CreateFridgeCommand(
             "Fridge",
             "OwnerName",
@@ -165,16 +125,21 @@ public class CreateFridgeCommandHandlerTests
         var id = await handler.Handle(command, CancellationToken.None);
 
         // Then
-        var fridge = await db.Fridges
-           .Include(x => x.FridgeProducts)
-           .SingleAsync(x => x.Id == id);
+        var fridge = await LoadFridgeAsync(ctx, id);
 
-        fridge!.Name.Should().Be("Fridge");
+        fridge.Name.Should().Be("Fridge");
         fridge.OwnerName.Should().Be("OwnerName");
         fridge.ModelId.Should().Be(modelId);
 
         fridge.FridgeProducts.Should().HaveCount(2);
         fridge.FridgeProducts.Should().ContainSingle(x => x.ProductId == productOne.Id && x.Quantity == 10);
         fridge.FridgeProducts.Should().ContainSingle(x => x.ProductId == productTwo.Id && x.Quantity == 1);
+    }
+
+    private static async Task<Domain.Entities.Fridge> LoadFridgeAsync(TestContext ctx, Guid id)
+    {
+        return await ctx.Db.Fridges
+            .Include(x => x.FridgeProducts)
+            .SingleAsync(x => x.Id == id);
     }
 }

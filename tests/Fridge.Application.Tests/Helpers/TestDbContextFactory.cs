@@ -7,7 +7,7 @@ namespace Fridge.Application.Tests.Helpers;
 
 public static class TestDbContextFactory
 {
-    public static async Task<(IAppDbContext Db, SqliteConnection Connection)> CreateAsync()
+    public static async Task<(AppDbContext Db, SqliteConnection Connection)> CreateAsync()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
