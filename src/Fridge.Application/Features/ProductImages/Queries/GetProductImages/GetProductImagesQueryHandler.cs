@@ -22,7 +22,6 @@ public sealed class GetProductImagesQueryHandler(IAppDbContext db)
             .AsNoTracking()
             .Where(x => x.ProductId == request.ProductId)
             .OrderByDescending(x => x.IsPrimary)
-            .ThenByDescending(x => x.CreatedAt)
             .Select(x => new ProductImageDto
             (
                 x.Id,
