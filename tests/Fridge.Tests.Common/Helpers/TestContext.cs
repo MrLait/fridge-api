@@ -1,8 +1,7 @@
-
 using Fridge.Infrastructure.Persistence;
 using Microsoft.Data.Sqlite;
 
-namespace Fridge.Application.Tests.Helpers;
+namespace Fridge.Tests.Common.Helpers;
 
 public class TestContext : IAsyncDisposable
 {

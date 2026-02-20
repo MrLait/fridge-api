@@ -1,10 +1,10 @@
-
 using FluentAssertions;
-using Fridge.Application.Common.Interfaces;
-using Fridge.Application.Features.ProductImages.Commands.UploadProductImage;
 using Fridge.Application.Tests.Helpers;
 using Fridge.Domain.Entities;
+using Fridge.Tests.Common.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Fridge.Application.Features.ProductImages.Commands.UploadProductImage;
+
 
 namespace Fridge.Application.Tests.Handlers;
 

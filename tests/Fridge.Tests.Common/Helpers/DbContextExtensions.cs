@@ -1,6 +1,7 @@
+
 using Microsoft.EntityFrameworkCore;
 
-namespace Fridge.Application.Tests.Helpers;
+namespace Fridge.Tests.Common.Helpers;
 
 public static class DbContextExtensions
 {

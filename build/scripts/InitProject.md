@@ -32,6 +32,12 @@ dotnet new xunit -n Fridge.Application.Tests -f net8.0 -o tests/Fridge.Applicati
 dotnet sln add tests/Fridge.Application.Tests/Fridge.Application.Tests.csproj
 dotnet add tests/Fridge.Application.Tests reference src/Fridge.Application
 
+dotnet new xunit -n Fridge.Infrastructure.Tests -f net8.0 -o tests/Fridge.Infrastructure.Tests
+dotnet sln add tests/Fridge.Infrastructure.Tests/Fridge.Infrastructure.Tests.csproj
+
+dotnet new classlib -n Fridge.Tests.Common -f net8.0 -o tests/Fridge.Tests.Common
+dotnet sln add tests/Fridge.Tests.Common/Fridge.Tests.Common.csproj
+
 ## add application packages
 
 dotnet add src/Fridge.Application package MediatR --version 14.0.0

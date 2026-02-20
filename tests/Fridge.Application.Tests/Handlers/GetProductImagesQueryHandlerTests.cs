@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Fridge.Application.Features.ProductImages.Queries.GetProductImages;
-using Fridge.Application.Tests.Helpers;
 using Fridge.Domain.Entities;
+using Fridge.Tests.Common.Helpers;
 
 namespace Fridge.Application.Tests.Handlers;
 

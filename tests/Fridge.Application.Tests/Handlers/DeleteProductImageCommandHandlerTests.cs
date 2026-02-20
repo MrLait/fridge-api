@@ -2,6 +2,7 @@ using FluentAssertions;
 using Fridge.Application.Features.ProductImages.Commands.DeleteProductImage;
 using Fridge.Application.Tests.Helpers;
 using Fridge.Domain.Entities;
+using Fridge.Tests.Common.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fridge.Application.Tests.Handlers;

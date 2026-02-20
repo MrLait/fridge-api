@@ -1,7 +1,6 @@
 using FluentAssertions;
 using Fridge.Application.Features.FridgeModels.Queries.GetFridgeModels;
-using Fridge.Application.Tests.Helpers;
-using Fridge.Domain.Entities;
+using Fridge.Tests.Common.Helpers;
 
 namespace Fridge.Application.Tests.Handlers;
 public class GetFridgeModelsQueryHandlerTests

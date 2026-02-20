@@ -3,7 +3,7 @@ using Fridge.Infrastructure.Persistence;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fridge.Application.Tests.Helpers;
+namespace Fridge.Tests.Common.Helpers;
 
 public static class TestDbContextFactory
 {
