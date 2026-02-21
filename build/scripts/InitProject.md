@@ -100,14 +100,14 @@ docker exec -it fridge-sql /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "
 ## Code coverage
 
 ```powershell
-dotnet test .\Fridge.sln --collect:"XPlat Code Coverage"
+dotnet test Fridge.sln --collect:"XPlat Code Coverage" --settings .\coverlet.runsettings
 ```
 
 ```powershell
 reportgenerator `
 -reports:"tests/**/TestResults/**/coverage.cobertura.xml" `
 -targetdir:"TestResults/CoverageReport" `
--reporttypes:Html
+-reporttypes:"Html;Badges"
 
 ```
 

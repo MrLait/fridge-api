@@ -1,5 +1,7 @@
 # Fridge App (Web API + MVC Client)
 
+![Coverage](.badges/badge_combined.svg)
+
 Client-server application for managing fridges and products stored inside them.
 
 ## Tech stack

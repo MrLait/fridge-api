@@ -27,7 +27,8 @@
         "${workspaceFolder}/tests/Fridge.Application.Tests/Fridge.Application.Tests.csproj",
         "/p:CollectCoverage=true",
         "/p:CoverletOutputFormat=lcov",
-        "/p:CoverletOutput=./lcov.info"
+        "/p:CoverletOutput=./lcov.info",
+        "/p:ExcludeByFile=**\\Fridge.Infrastructure\\Migrations\\*.cs%2c**\\*ModelSnapshot.cs"
       ],
       "problemMatcher": "$msCompile",
       "group": {
